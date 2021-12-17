@@ -1,4 +1,4 @@
-# Booking and Reservations
+# Golang basic structure
 
 This is the repository for my Golang project, personal basic structure for Web.
 
