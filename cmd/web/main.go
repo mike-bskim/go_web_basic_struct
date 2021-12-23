@@ -3,7 +3,9 @@ package main
 import (
 	"GO/Toy_Prj/basic_struct/internal/config"
 	"GO/Toy_Prj/basic_struct/internal/handlers"
+	"GO/Toy_Prj/basic_struct/internal/models"
 	"GO/Toy_Prj/basic_struct/internal/render"
+	"encoding/gob"
 	"fmt"
 	"log"
 	"net/http"
@@ -19,6 +21,9 @@ var session *scs.SessionManager // from package
 
 // main is the main function
 func main() {
+
+	// what am I doing to put in the session
+	gob.Register(models.Reservation{})
 
 	// change this to true when in production, 보안강화 적용안함.
 	app.InProduction = false
