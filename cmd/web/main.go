@@ -22,6 +22,25 @@ var session *scs.SessionManager // from package
 // main is the main function
 func main() {
 
+	err := run()
+	if err != nil {
+		log.Fatal(err)
+	}
+
+	tmp := fmt.Sprintf("Staring application on port %s", portNumber)
+	fmt.Println(tmp)
+
+	svr := &http.Server{
+		Addr:    portNumber,
+		Handler: routes(&app),
+	}
+	err = svr.ListenAndServe()
+	log.Fatal(err)
+}
+
+// main 은 테스트가 안되서 가능한 부분만 잘라서 옮김
+func run() error {
+
 	// what am I doing to put in the session
 	gob.Register(models.Reservation{})
 
@@ -39,6 +58,7 @@ func main() {
 	tc, err := render.CreateTemplateCache() // tmpl 파일을 조립하여 메모리로 로딩
 	if err != nil {
 		log.Fatal("cannot create template cache")
+		return err
 	}
 
 	app.TemplateCache = tc
@@ -51,13 +71,5 @@ func main() {
 
 	render.NewTemplates(&app) // main에서 선언한 AppConfig 변수를 render.go 와 공유
 
-	tmp := fmt.Sprintf("Staring application on port %s", portNumber)
-	fmt.Println(tmp)
-
-	svr := &http.Server{
-		Addr:    portNumber,
-		Handler: routes(&app),
-	}
-	err = svr.ListenAndServe()
-	log.Fatal(err)
+	return nil
 }
